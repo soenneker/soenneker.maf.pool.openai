@@ -44,6 +44,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-rc2" />
-        <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.3" />
+        <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.4" />
     </ItemGroup>
 </Project>
