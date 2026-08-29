@@ -3,11 +3,38 @@
 [![](https://img.shields.io/nuget/dt/soenneker.maf.pool.openai.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.maf.pool.openai/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.maf.pool.openai/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.maf.pool.openai/actions/workflows/codeql.yml)
 
-# ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Maf.Pool.OpenAI
-### Provides OpenAI-specific registration extensions for MafPoolManager, enabling integration via Microsoft Agent Framework.
+# Soenneker.Maf.Pool.OpenAI
 
-## Installation
+Provides OpenAI-specific registration extensions for `IMafPool`, enabling integration via Microsoft Agent Framework.
 
-```
+## Install
+
+```bash
 dotnet add package Soenneker.Maf.Pool.OpenAI
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Maf.Pool.OpenAI;
+
+IMafPool pool = /* obtain from your application */;
+await pool.AddOpenAI("value", "value", "value", "value", default);
+```
+
+Registers an OpenAI model in the agent pool with optional rate/token limits.
+
+## What you get
+
+- `MafPoolOpenAIExtension` — Provides OpenAI-specific registration extensions for `IMafPool`, enabling integration via Microsoft Agent Framework.
+
+## API at a glance
+
+| API | What it does | Result / important behavior |
+| --- | --- | --- |
+| `MafPoolOpenAIExtension.AddOpenAI(pool, poolId, key, modelId, apiKey, endpoint, rps, rpm, rpd, tokensPerDay, instructions, cancellationToken)` | Registers an OpenAI model in the agent pool with optional rate/token limits. | A task that completes when the openai addition is complete. |
+| `MafPoolOpenAIExtension.RemoveOpenAI(pool, poolId, key, cancellationToken)` | Unregisters an OpenAI model from the agent pool and removes the associated cache entry. | True if the entry existed and was removed; false if it was not present. |
+
+## Practical notes
+
+- Cancellation stops pending work; it does not undo work that has already completed.
