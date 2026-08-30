@@ -13,16 +13,26 @@ Provides OpenAI-specific registration extensions for `IMafPool`, enabling integr
 dotnet add package Soenneker.Maf.Pool.OpenAI
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Maf.Pool.OpenAI;
+using Soenneker.Maf.Pool.Abstract;
 
-IMafPool pool = /* obtain from your application */;
-await pool.AddOpenAI("value", "value", "value", "value", default);
+await pool.AddOpenAI(
+    poolId: "chat",
+    key: "openai-primary",
+    modelId: "gpt-5-mini",
+    apiKey: configuration["OPENAI_API_KEY"]!,
+    rpm: 60,
+    instructions: "Answer concisely.",
+    cancellationToken: cancellationToken);
+
+(AIAgent? agent, IMafPoolEntry? entry) =
+    await pool.GetAvailable("chat", cancellationToken);
 ```
 
-Registers an OpenAI model in the agent pool with optional rate/token limits.
+Omit `endpoint` for OpenAI's default service. A custom endpoint must expose an API compatible with the OpenAI .NET chat client.
 
 ## What you get
 
@@ -37,4 +47,7 @@ Registers an OpenAI model in the agent pool with optional rate/token limits.
 
 ## Practical notes
 
-- Cancellation stops pending work; it does not undo work that has already completed.
+- The agent is created lazily and reused until its entry is removed.
+- Store the API key in a secret provider; the pool retains it in the entry options while the entry is registered.
+- Omitted instructions default to `You are a helpful assistant.`
+- Checkout consumes one request from the configured quota. `tokensPerDay` is not reconciled against actual provider token usage.
