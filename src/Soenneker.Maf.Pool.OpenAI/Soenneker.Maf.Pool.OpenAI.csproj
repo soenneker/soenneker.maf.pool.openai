@@ -45,7 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.156" />
+        <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.157" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Agents.AI" Version="1.22.0" />
